@@ -29,7 +29,6 @@ def main():
         if p.haslayer(IP):
             sendp(p, iface="enp2s0f0np0", verbose=False)
             #p.show2()
-            time.sleep(0.3)
 
 if __name__ == '__main__':
     main()
