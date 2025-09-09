@@ -158,10 +158,6 @@ control IngressDeparser(
 
     apply {
         pkt.emit(hdr);
-        pkt.emit(hdr.ethernet);
-        pkt.emit(hdr.rec);
-        pkt.emit(hdr.ipv4);
-        pkt.emit(hdr.tcp);
     }
 }
 
