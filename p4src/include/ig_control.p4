@@ -108,13 +108,13 @@ control Ingress(
 
 
 	apply {
-		bit<9> device_port = ig_intr_md.ingress_port;
-        hdr.rec.setValid();
-		//if (!hdr.rec.isValid()) {
-            hdr.rec.original_ether_type = hdr.ethernet.ether_type;
-            hdr.ethernet.ether_type = ETHERTYPE_REC;
-            hdr.rec.if_pass = 0;
-        //}        
+		    bit<9> device_port = ig_intr_md.ingress_port;
+            hdr.rec.setValid();
+		    if (!hdr.rec.isValid()) {
+                hdr.rec.original_ether_type = hdr.ethernet.ether_type;
+                hdr.ethernet.ether_type = ETHERTYPE_REC;
+                hdr.rec.if_pass = 0;
+            }        
             md.prob_p = state_action.execute(16w1);
             hdr.rec.state = md.prob_p;
             md.m_n = increment_to_mn.execute(32w1);
@@ -142,15 +142,7 @@ control Ingress(
             Stage2.apply(hdr, md);
             ig_intr_tm_md.bypass_egress = 1w1;
 
-            if (hdr.rec.state == 0) {
-            //m_sum_1_write_action.execute(32w1);
-            //m_p_1_write_action.execute(32w1);
-            //z_t_1_write_action.execute(32w1);
-            } else {
-            //m_sum_0_write_action.execute(32w1);
-            //m_p_0_write_action.execute(32w1);
-            //z_t_0_write_action.execute(32w1);
-            }   
+
         if (md.do_resubmit == 0) {  
             ig_intr_tm_md.bypass_egress = 1w1;
 		    ig_intr_tm_md.ucast_egress_port = 9w168;
